@@ -18,14 +18,19 @@ class BooksController < ApplicationController
     @book.user_id = current_user.id
     @books = Book.all
     if @book.save
-      redirect_to book_path(@book.id), notice: "You have created book successfully."
+      redirect_to book_path(@book), notice: "You have created book successfully."
     else
+      @user = current_user
       render 'index'
     end
   end
 
+
   def edit
     @book = Book.find(params[:id])
+    if @book.user != current_user
+      redirect_to books_path
+    end
   end
 
 
